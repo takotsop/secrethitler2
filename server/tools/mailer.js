@@ -6,7 +6,7 @@ var SendGrid = require('sendgrid')(Config.SENDGRID_API_KEY);
 module.exports = {
 
 	sendPasskey: function(name, email, passcode) {
-		var appName = 'Secret Hitler Online';
+		var appName = 'Secret Hitler Games';
 		var passcodeMail = new SendGrid.Email({
 			to: email,
 			from: 'hello@secrethitler.online',
