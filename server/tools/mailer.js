@@ -23,7 +23,7 @@ module.exports = {
 			'templates': {
 				'settings': {
 					'enable': 1,
-					'template_id': '7303f3ad-cc19-46c8-9dea-b723b8c5c18d',
+					'template_id': '4784414d-60fd-4d66-8fc8-e0b46053d986',
 				}
 			}
 		});
