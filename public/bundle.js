@@ -631,7 +631,7 @@
 		params = {query: 'uid=' + Data.uid + '&auth=' + Data.auth + '&v=' + CommonConsts.VERSION};
 	}
 
-	var socket = SocketIO(Config.TESTING ? 'http://localhost:8004' : 'https://secrethitlerbeta.herokuapp.com', params);
+	var socket = SocketIO(Config.TESTING ? 'http://localhost:8004' : 'https://secrethitlergames.herokuapp.com', params);
 
 	//PUBLIC
 
@@ -8147,7 +8147,7 @@
 		$('#lobby-privacy').toggle(privateGame);
 		if (privateGame) {
 			var gid = data.gid;
-			$('#lobby-private-code').html('<a href="/join/'+gid+'" target="_blank">https://secrethitler.online/join/<strong>' + gid + '</strong></a>');
+			$('#lobby-private-code').html('<a href="/join/'+gid+'" target="_blank">https://secrethitler.games/join/<strong>' + gid + '</strong></a>');
 		}
 	};
 
