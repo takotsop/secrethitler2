@@ -6,10 +6,10 @@ var SendGrid = require('sendgrid')(Config.SENDGRID_API_KEY);
 module.exports = {
 
 	sendPasskey: function(name, email, passcode) {
-		var appName = 'Secret Hitler Games';
+		var appName = 'Secret Hitler Online';
 		var passcodeMail = new SendGrid.Email({
 			to: email,
-			from: 'hello@secrethitler.online',
+			from: process.env.SENDGRID_FROM_EMAIL,
 			subject: passcode,
 			text: ' ',
 			html: ' ',
@@ -23,7 +23,7 @@ module.exports = {
 			'templates': {
 				'settings': {
 					'enable': 1,
-					'template_id': '4784414d-60fd-4d66-8fc8-e0b46053d986',
+					'template_id': process.env.SENDGRID_EMAIL_TEMPLATE,
 				}
 			}
 		});
