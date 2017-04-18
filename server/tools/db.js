@@ -25,7 +25,7 @@ var query = function(statement, params, callback) {
 		if (!client) {
 			if (dbConfigured) {
 				console.error('CLIENT CONNECTION ERROR');
-				console.log(err, client, done);
+				console.log(err, client, connectURL);
 			}
 			done();
 			return;
