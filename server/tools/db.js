@@ -1,6 +1,6 @@
 'use strict';
 
-var Postgres = require('pg');
+var Postgres = require('pg').native;
 
 var CommonUtil = require.main.require('./common/util');
 
