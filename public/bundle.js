@@ -631,7 +631,7 @@
 		params = {query: 'uid=' + Data.uid + '&auth=' + Data.auth + '&v=' + CommonConsts.VERSION};
 	}
 
-	var socket = SocketIO(Config.TESTING ? 'http://localhost:8004' : 'http://secrethitlergames.herokuapp.com', params);
+	var socket = SocketIO(Config.TESTING ? 'http://localhost:8004' : 'http://secrethitler.games', params);
 
 	//PUBLIC
 
@@ -642,7 +642,7 @@
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -868,7 +868,7 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * This is the web browser implementation of `debug()`.
 	 *
@@ -1042,7 +1042,7 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * This is the common logic for both the Node.js and web browser
 	 * implementations of `debug()`.
@@ -1376,7 +1376,7 @@
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -2724,7 +2724,7 @@
 /* 23 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Expose `Emitter`.
 	 */
@@ -3062,7 +3062,7 @@
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -3625,7 +3625,7 @@
 /* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	module.exports =  __webpack_require__(28);
 
 
@@ -3633,7 +3633,7 @@
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	module.exports = __webpack_require__(29);
 
 	/**
@@ -4486,7 +4486,7 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Module exports.
 	 *
@@ -5943,7 +5943,7 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Gets the keys for an object.
 	 *
@@ -6562,7 +6562,7 @@
 /* 45 */
 /***/ function(module, exports) {
 
-	
+
 	module.exports = function(a, b){
 	  var fn = function(){};
 	  fn.prototype = b.prototype;
@@ -6791,7 +6791,7 @@
 	  this.script = script;
 
 	  var isUAgecko = 'undefined' != typeof navigator && /gecko/i.test(navigator.userAgent);
-	  
+
 	  if (isUAgecko) {
 	    setTimeout(function () {
 	      var iframe = document.createElement('iframe');
@@ -7194,7 +7194,7 @@
 /* 50 */
 /***/ function(module, exports) {
 
-	
+
 	var indexOf = [].indexOf;
 
 	module.exports = function(arr, obj){
@@ -7247,7 +7247,7 @@
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -7665,7 +7665,7 @@
 /* 53 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Expose `Emitter`.
 	 */
@@ -7851,7 +7851,7 @@
 /* 55 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Module exports.
 	 */
@@ -7976,7 +7976,7 @@
 /* 58 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Expose `Backoff`.
 	 */
@@ -8147,7 +8147,7 @@
 		$('#lobby-privacy').toggle(privateGame);
 		if (privateGame) {
 			var gid = data.gid;
-			$('#lobby-private-code').html('<a href="/join/'+gid+'" target="_blank">http://secrethitlergames.herokuapp.com/join/<strong>' + gid + '</strong></a>');
+			$('#lobby-private-code').html('<a href="/join/'+gid+'" target="_blank">http://secrethitler.games/join/<strong>' + gid + '</strong></a>');
 		}
 	};
 
@@ -10579,7 +10579,7 @@
 	  harker.setInterval = function(i) {
 	    interval = i;
 	  };
-	  
+
 	  harker.stop = function() {
 	    running = false;
 	    harker.emit('volume_change', -100, threshold);
@@ -10597,12 +10597,12 @@
 	  // and emit events if changed
 	  var looper = function() {
 	    setTimeout(function() {
-	    
+
 	      //check if stop has been called
 	      if(!running) {
 	        return;
 	      }
-	      
+
 	      var currentVolume = getMaxVolume(analyser, fftBins);
 
 	      harker.emit('volume_change', currentVolume, threshold);
@@ -20192,7 +20192,7 @@
 /* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	module.exports = __webpack_require__(120);
 
 
@@ -20200,7 +20200,7 @@
 /* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -20404,7 +20404,7 @@
 /* 123 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Expose `debug()` as the module.
 	 */
@@ -20547,7 +20547,7 @@
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -21988,7 +21988,7 @@
 /* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -22497,7 +22497,7 @@
 /* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	module.exports =  __webpack_require__(130);
 
 
@@ -22505,7 +22505,7 @@
 /* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	module.exports = __webpack_require__(131);
 
 	/**
@@ -23335,7 +23335,7 @@
 /* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -23364,7 +23364,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Returns `this`. Execute this without a "context" (i.e. without it being
 	 * attached to an object of the left-hand side), and `this` points to the
@@ -24786,7 +24786,7 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Gets the keys for an object.
 	 *
@@ -24876,7 +24876,7 @@
 /* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * This is the web browser implementation of `debug()`.
 	 *
@@ -25029,7 +25029,7 @@
 /* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * This is the common logic for both the Node.js and web browser
 	 * implementations of `debug()`.
@@ -25487,7 +25487,7 @@
 	  this.script = script;
 
 	  var isUAgecko = 'undefined' != typeof navigator && /gecko/i.test(navigator.userAgent);
-	  
+
 	  if (isUAgecko) {
 	    setTimeout(function () {
 	      var iframe = document.createElement('iframe');
@@ -25833,7 +25833,7 @@
 /* 147 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -25927,7 +25927,7 @@
 /* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
+
 	/**
 	 * Module dependencies.
 	 */
@@ -26337,7 +26337,7 @@
 /* 151 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * Module exports.
 	 */
@@ -26367,7 +26367,7 @@
 /* 152 */
 /***/ function(module, exports) {
 
-	
+
 	/**
 	 * HOP ref.
 	 */
