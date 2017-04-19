@@ -3,18 +3,6 @@ An online implementation of the tabletop game [Secret Hitler](http://secrethitle
 
 Supports 5-10 players, text or voice (beta) chat, and the game's core rule set. Game data is persisted to allow features like stat aggregation, or game replays in future.
 
-### Docker Version
-
-Run sql_import.sh to create the Postgres DB and import the SQL dump within the repo.
-```
-./sql_import.sh
-```
-Then start the application via docker-compose.
-```
-docker-compose up -d
-```
-I highly suggest changing the database credentials in the files above before running this anywhere publically.
-
 # Development
 
 The app is written in vanilla HTML5, CSS3, and JS ES5. Files in `/server` run on the node.js server, files in `/public` are served statically when users load the page, while files in `/common` are shared for both.
@@ -48,10 +36,12 @@ Unless you specifically need to test the user accounts system or game persistenc
 
 # Contributing
 
-Pull requests welcome, or check the [issues](https://github.com/kylecoburn/secret-hitler/issues) page to make a bug report or feature suggestion.
+Pull requests welcome
 
 # Attribution
 "Secret Hitler" is a game designed by Max Temkin, Mike Boxleiter, Tommy Maranges, and Mackenzie Schubert. This adaptation is neither affiliated with, nor endorsed by the copyright holders.
+
+This adaption is available at https://github.com/PDarrall/secret-hitler
 
 Secret Hitler is licensed under [Creative Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (non-commercial, share-alike, attribution required).
 
