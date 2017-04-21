@@ -22,6 +22,8 @@ var Timeout = require('lobby/timeout');
 var Start = require('game/start');
 var State = require('game/state');
 
+var Audio = require('util/audio');
+
 //TIMERS
 
 var countdownInterval, startTime;
@@ -38,6 +40,9 @@ var updateCountdown = function() {
 	if (secondsRemaining < 0) {
 		clearCountdown();
 	} else {
+		if (secondsRemaining < 3) {
+			Audio.gameStartingAlert(secondsRemaining);
+		}
 		$('#lobby-countdown').text('waiting ' + secondsRemaining + ' seconds...');
 	}
 };
@@ -96,6 +101,7 @@ var showLobbySection = function(subsection, forced) {
 };
 
 var connectToStart = function() {
+	clearCountdown();
 	$('.chat-container').html('');
 
 	showLobbySection('start', true);
