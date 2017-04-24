@@ -8117,6 +8117,7 @@
 	//LOCAL
 
 	var updateLobby = function(data) {
+		clearCountdown();
 		if (data.started) {
 			Timeout.setGameLobby(false);
 			Start.play(data);
@@ -8124,8 +8125,6 @@
 		}
 
 		showLobbySection('wait');
-
-		clearCountdown();
 
 		State.players = data.players;
 		var lobbyPlayerCount = data.players.length;
@@ -28454,13 +28453,13 @@
 		if (action == 'abandoned') {
 			Players.abandoned(data);
 		} else if (action == 'chat') {
-			Audio.chatAlert();
-			Chat.addMessage(data);
+	//		Audio.chatAlert();
+			Chat.addMessage(data); 
 		} else if (action == 'chancellor chosen') {
 			Audio.chancellorChosenAlert();
 			Players.chancellorChosen(data);
 		} else if (action == 'voted') {
-			Audio.votedAlert();
+	//		Audio.votedAlert();
 			Game.voteCompleted(data);
 		} else if (action == 'discarded') {
 			Policies.discarded(data);
