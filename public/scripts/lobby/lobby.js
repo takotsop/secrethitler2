@@ -50,6 +50,7 @@ var updateCountdown = function() {
 //LOCAL
 
 var updateLobby = function(data) {
+	clearCountdown();
 	if (data.started) {
 		Timeout.setGameLobby(false);
 		Start.play(data);
@@ -57,8 +58,6 @@ var updateLobby = function(data) {
 	}
 
 	showLobbySection('wait');
-
-	clearCountdown();
 
 	State.players = data.players;
 	var lobbyPlayerCount = data.players.length;
