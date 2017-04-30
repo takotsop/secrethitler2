@@ -74,8 +74,8 @@
 	'use strict';
 
 	var MAJOR_VERSION = 1;
-	var MINOR_VERSION = 1;
-	var PATCH_VERSION = 20;
+	var MINOR_VERSION = 0;
+	var PATCH_VERSION = 0;
 
 	//PUBLIC
 
