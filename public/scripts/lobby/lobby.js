@@ -94,9 +94,6 @@ var showLobbySection = function(subsection, forced) {
 	$('#lobby-'+subsection).show();
 
 	var isGameLobby = subsection == 'wait';
-		if(isGameLobby) {
- 			$('.chat-container').html('');
- 		}
 	Chat.toggle(isGameLobby);
 	Timeout.setGameLobby(isGameLobby);
 };
@@ -116,8 +113,7 @@ var connectToStart = function() {
 };
 
 var showLobby = function() {
-	State.started = false;
- 	State.finished = false;
+	State.inGame = false;
 	Chat.voiceDisconnect();
 	App.showSection('lobby');
 	connectToStart();
