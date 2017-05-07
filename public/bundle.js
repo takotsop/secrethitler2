@@ -8161,9 +8161,6 @@
 		$('#lobby-'+subsection).show();
 
 		var isGameLobby = subsection == 'wait';
-		if(isGameLobby) {
- 		$('.chat-container').html('');
- 		}
 		Chat.toggle(isGameLobby);
 		Timeout.setGameLobby(isGameLobby);
 	};
@@ -8183,8 +8180,7 @@
 	};
 
 	var showLobby = function() {
-		State.started = false;
- 		State.finished = false;
+		State.inGame = false;
 		Chat.voiceDisconnect();
 		App.showSection('lobby');
 		connectToStart();
@@ -8550,7 +8546,7 @@
 
 		setEnacting: function(enacting) {
 			enactingPolicy = enacting;
-			toggleMute(enacting);
+			toggleMute();
 		},
 
 		setDirective: setDirective,
@@ -26793,7 +26789,7 @@
 			App.playerDiv(player).addClass(State.finished ? 'quit' : 'killed');
 
 			if (State.isLocal(player)) {
-				Chat.toggleMute(!quit);
+				Chat.toggleMute(true);
 			}
 			State.currentCount -= 1;
 
@@ -27099,7 +27095,8 @@
 
 	var endGame = function(liberalWin, winMethod) {
 		if (State.inGame) {
-			if (!State.finished) {
+			State.inGame = false;
+			State.finished = true;
 			Chat.toggleMute(false);
 			Chat.setDirective('GAME OVER');
 			Overlay.show('victory', {liberals: liberalWin, method: winMethod});
@@ -27450,7 +27447,7 @@
 
 	$('#menu-quit').on('click', function() {
 		var confirmed = true;
-		if (State.started && !State.finished) {
+		if (State.inGame) {
 			confirmed = window.confirm('Are you sure you want to abandon this game?', 'Your fellow players will be sad, and you\'ll lose points :(');
 		}
 		if (confirmed) {
@@ -28205,7 +28202,7 @@
 	//WINDOW
 
 	$(window).on('beforeunload', function() {
-		if (!Config.TESTING && (State.started && !State.finished)) {
+		if (!Config.TESTING && State.inGame) {
 			return "You WILL NOT be removed from the game. If you'd like to leave permanently, please quit from the menu first so your fellow players know you will not return. Thank you!";
 		}
 	});
@@ -28299,9 +28296,10 @@
 		Data.gameId = data.gid;
 		App.showSection('game');
 
+		State.inGame = true;
 		State.started = true;
-		State.finished = false;
 		State.initializedPlay = false;
+		State.finished = false;
 		State.positionIndex = data.startIndex;
 		State.presidentIndex = State.positionIndex;
 		State.chancellorIndex = null;
