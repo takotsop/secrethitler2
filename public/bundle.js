@@ -27434,7 +27434,7 @@
 	//MENU
 
 	$('#menu-issues').on('click', function() {
-		window.open('https://github.com/kylecoburn/secret-hitler/issues', '_blank');
+		window.open('https://github.com/pdarrall/secret-hitler/issues', '_blank');
 	});
 
 	$('#overlay').on('click', '.menu-feedback', function() {
