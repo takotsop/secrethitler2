@@ -167,3 +167,76 @@
 	bottom: 0;
 	font-size: 0.7em;
 }
+
+@media (max-width:500px) {
+	#board-container {
+		bottom: auto;
+		position: relative;
+	}
+
+	#board {
+		border-radius: 0;
+	}
+
+	#players {
+		min-height: initial;
+	}
+
+	#tracker-title {
+		display: none;
+	}
+
+	#tracker-description {
+		display: none;
+	}
+
+	#board-policy-piles {
+		height: 23.5%;
+		padding: 0;
+		position: relative;
+	}
+
+	#board-policy-piles .policy-placeholder {
+		height: 55%;
+		padding-top: 0;
+		width: 12%;
+	}
+
+	.pile-cards {
+		font-size: 14px;
+	}
+
+	.pile-label {
+		letter-spacing: 1px;
+	}
+
+	.card-pile {
+		padding-bottom: 3%;
+	}
+
+	#election-tracker {
+		width: 19%;
+		height: 24px;
+		position: absolute;
+		top: 0;
+		right: 16px;
+	}
+
+	.tracker-slot {
+		border-width: 1px;
+		max-width: 4vw;
+		max-height: 4vw;
+	}
+
+	#pile-draw {
+		position: absolute;
+		top: 23px;
+		right: 74px;
+	}
+
+	#pile-discard {
+		position: absolute;
+		top: 23px;
+		right: 17px;
+	}
+}
