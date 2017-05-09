@@ -147,4 +147,23 @@
 	#s-game.directive #game-container {
 		padding-top: 25px;
 	}
+
+	#game-container {
+		justify-content: flex-end;
+	}
+
+	#game-mat {
+		height: auto;
+		min-height: initial;
+	}
+
+	#game-area {
+		flex-grow: 0;
+		height: 253px;
+	}
+
+	#chat-container-game {
+		height: 100%;
+		flex-basis: auto;
+	}
 }
