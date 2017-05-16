@@ -34,7 +34,7 @@
 	</div>
 			
 			
-<p></p>			
+<p></p>
 			<p>
 			<h2>Secret Hitler is a social deduction game for 5–10 people about finding and stopping the Secret Hitler.</h2>
 			<h2>The majority of players are liberals. If they can learn to trust each other, they have enough votes to control the table and win the game. But some players are fascists. They will say whatever it takes to get elected, enact their agenda, and blame others for the fallout. The liberals must work together to discover the truth before the fascists install their cold-blooded leader and win the game.</h2>
@@ -66,11 +66,14 @@
 			<button id="guest-signin" class="large">sign in as guest</button> .  -->
 		</div>
 		<div id="s-signin-passkey" class="sd-signin">
-			<h2>Welcome back, <span class="signin-email-address">a@a.a</span>!</h2>
-			<h3 class="faint">Wrong email? <button class="signin-restart">try again</button></h3>
+			<form id="signin-passkey-form">
+				<h2>Welcome back, <span class="signin-email-address">a@a.a</span>!</h2>
+				<h3 class="faint">Wrong email? <button class="signin-restart">try again</button></h3>
 
-			<input class="full input-signin" id="i-signin-passkey" placeholder="6-digit passkey" maxlength="6" autocomplete="none" /> <div class="input-error mini">Passkey must be exactly 6 digits (0-9)</div>
-			<h3>Your passkey has been emailed to you. Please enter it to complete your sign in.</h3>
+				<input class="full input-signin" id="i-signin-passkey" placeholder="6-digit passkey" maxlength="6" autocomplete="none" /> <div class="input-error mini">Passkey must be exactly 6 digits (0-9)</div>
+				<button type="submit" class="large">submit</button>
+				<h3>Your passkey has been emailed to you. Please enter it to complete your sign in.</h3>
+			</form>
 		</div>
 		<div id="s-signin-username" class="sd-signin">
 			<h2>Welcome, <span class="signin-email-address">a@a.a</span>!</h2>
@@ -234,14 +237,14 @@
 					</div>
 				</div>
 
-        <div id="mobile-tabs">
-          <a href="#" class="selected">
-            Roles</a><a href="#">
-            Chat</a>
-        </div>
+				<div id="mobile-tabs">
+					<a href="#" class="selected">
+						Roles</a><a href="#">
+						Chat</a>
+				</div>
 
-        <div id="players" class="scrolling">
-        </div>
+				<div id="players" class="scrolling">
+				</div>
 
 				<div id="player-cards">
 					<div id="cards-position">
@@ -322,8 +325,8 @@
 </section>
 
 <div id="chat-box" style="display:none;">
-	<input id="i-chat" class="chat-mutable" type="text" placeholder="💬" maxlength="255" />
-<!---	<div id="voice-button" class="chat-mutable chat-button">🎙</div> .  --->
+	<input id="i-chat" class="chat-mutable" type="text" placeholder="" maxlength="255" />
+<!---	<div id="voice-button" class="chat-mutable chat-button"></div> .  --->
 	<div id="menu-button" class="chat-button"></div>
 </div>
 
