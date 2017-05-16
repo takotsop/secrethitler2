@@ -183,6 +183,13 @@ $('#signin-start-form').on('submit', function(event) {
 	signinEmail(submitted);
 });
 
+$('#signin-passkey-form').on('submit', function(event) {
+	event.preventDefault();
+
+	var submitted = $('#i-signin-passkey').val();
+	signinPasskey(submitted);
+});
+
 $('input.input-signin').on('keypress', function(event) {
 	var keyPressed = event.which || event.keyCode;
 	if (keyPressed != 13) {

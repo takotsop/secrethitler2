@@ -139,5 +139,7 @@ select {
 	button.large {
 		margin: 0 auto 5px;
 		max-width: 80%;
+		background-color: #ccc;
+		border-radius: 4px;
 	}
 }
