@@ -21,3 +21,24 @@
 #chat-container-lobby .player-name {
 	color: inherit;
 }
+
+@media (max-width: 500px) {
+
+	#s-lobby h1 {
+		font-size: 22px;
+		margin: 0 10px;
+	}
+
+	#s-lobby hr {
+		margin: 20px 0;
+	}
+
+	#s-lobby h2 {
+		font-size: 18px;
+	}
+
+	#s-lobby p {
+		font-size: 14px;
+		margin: 10px 0;
+	}
+}

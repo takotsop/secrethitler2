@@ -101,8 +101,8 @@ button.large {
 	height: 44px;
 	width: 480px;
 	max-width: 100%;
-	margin: 8px 0;
-
+	margin: 8px auto;
+	display: block;
 	font-size: 1.3em;
 	color: #393734;
 }
@@ -128,7 +128,17 @@ select {
 }
 
 @media (max-width: 500px) {
+
+	input.full {
+		max-width: 80%;
+		box-sizing: border-box;
+		font-size: 20px;
+		margin-bottom: 6px;
+	}
+
 	button.large {
+		margin: 0 auto 5px;
+		max-width: 80%;
 		background-color: #ccc;
 		border-radius: 4px;
 	}

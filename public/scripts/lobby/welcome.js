@@ -46,6 +46,7 @@ var showSignin = function() {
 		setTimeout(function() {
 			$('#start-playing').click();
 			$('#guest-signin').click();
+			$('#i-signin-email').focus();
 		}, 200);
 	}
 
