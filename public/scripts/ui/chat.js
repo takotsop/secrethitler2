@@ -118,6 +118,7 @@ $('#i-chat').on('keydown', function(event) {
 
 	var key = event.which || event.keyCode || event.charCode;
 	if (key == 13) {
+		$(this).blur();
 		var simplified = $('<span>'+this.value+'</span>').text().trim();
 		if (simplified.length > 1) {
 			require('socket/action').emit('chat', {msg: simplified});
@@ -172,6 +173,24 @@ $('#menu-button').on('click', function() {
 	} else {
 		require('ui/overlay').hide();
 	}
+});
+
+$('#mobile-tabs').on('click', 'a', function(e) {
+
+	var chatContainerGame = $('#chat-container-game');
+
+	$('#mobile-tabs a').removeClass('selected');
+	$(e.currentTarget).addClass('selected');
+
+	var isChat = $.trim(e.currentTarget.text) == "Chat";
+
+	$('#players').toggle(!isChat);
+	chatContainerGame.toggle(isChat);
+
+	if (isChat) {
+		chatContainerGame.scrollTop(chatContainerGame.prop('scrollHeight'));
+	}
+
 });
 
 //PUBLIC

@@ -163,7 +163,7 @@
 	}
 
 	#chat-container-game {
-		height: 100%;
+		height: calc(100% - 253px);
 		flex-basis: auto;
 	}
 }
