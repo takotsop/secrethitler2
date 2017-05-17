@@ -61,7 +61,6 @@ var insertMessage = function(player, message, isAction) {
 	}, 200);
 };
 
-
 var addChatMessage = function(data) {
 	var player = require('game/players').get(data.uid);
 	if (player) {
