@@ -141,7 +141,8 @@
 	}
 
 	.player-slot h2 {
-		font-size: 16px;
+		font-size: 14px;
+		margin: 0;
 	}
 
 	.player-slot .avatar {
@@ -155,7 +156,7 @@
 
 	.player-slot .contents {
 		background-color: #F7E2C0;
-		padding: 8px;
+		padding: 4px;
 	}
 
 	.player-slot.left,
@@ -163,22 +164,22 @@
 		float: left;
 	}
 
-	.player-slot#ps1, .player-slot#ps3, .player-slot#ps5, .player-slot#ps7, .player-slot#ps9 {
+	.player-slot.mobile-left{
 		flex-direction: initial;
 		width: 50%;
 		border-right: 1px solid #dfdbc4;
 	}
 
-	.player-slot#ps1 .title, .player-slot#ps3 .title, .player-slot#ps5 .title, .player-slot#ps7 .title, .player-slot#ps9 .title {
+	.player-slot.mobile-left .title {
 		flex-direction: initial;
 	}
 
-	.player-slot#ps2, .player-slot#ps4, .player-slot#ps6, .player-slot#ps8, .player-slot#ps10 {
+	.player-slot.mobile-right {
 		flex-direction: row-reverse;
 		width: 50%;
 	}
 
-	.player-slot#ps2 .title, .player-slot#ps4 .title, .player-slot#ps6 .title, .player-slot#ps8 .title, .player-slot#ps10 .title {
+	.player-slot.mobile-right .title {
 		flex-direction: row-reverse;
 	}
 

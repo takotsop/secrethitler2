@@ -71,11 +71,12 @@
 	#player-cards {
 		top: 0;
 		height: 64px;
+		width: 60%;
 	}
 
 	#player-cards .card {
 		bottom: 0;
-		width: 106px;
+		width: 45%;
 		height: 54px;
 		padding-top: 0;
 		box-shadow: 0 0 0;
