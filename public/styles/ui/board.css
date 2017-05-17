@@ -269,4 +269,10 @@
 		top: 23px;
 		right: 4%;
 	}
+
+	.policy-placeholder .detail{
+		font-size: 10px;
+		left: 2px;
+		right: 2px;
+	}
 }
