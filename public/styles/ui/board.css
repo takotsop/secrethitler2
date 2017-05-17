@@ -229,7 +229,7 @@
 	#board-policy-piles .policy-placeholder {
 		height: 55%;
 		padding-top: 0;
-		width: 12%;
+		width: 15%;
 	}
 
 	.pile-cards {
@@ -249,7 +249,7 @@
 		height: 24px;
 		position: absolute;
 		top: 0;
-		right: 16px;
+		right: 6.5%;
 	}
 
 	.tracker-slot {
@@ -261,12 +261,12 @@
 	#pile-draw {
 		position: absolute;
 		top: 23px;
-		right: 74px;
+		right: 21%;
 	}
 
 	#pile-discard {
 		position: absolute;
 		top: 23px;
-		right: 17px;
+		right: 4%;
 	}
 }
