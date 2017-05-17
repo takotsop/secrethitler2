@@ -60,7 +60,7 @@
 	float: inherit;
 }
 .player-slot .chat {
-	margin: 4px 8px;
+	margin: 1px 8px;
 	font-style: italic;
 
 	display: -webkit-box;
