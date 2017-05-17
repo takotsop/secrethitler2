@@ -85,7 +85,7 @@ var startGame = function(data) {
 	var centerIndex = Math.ceil(State.playerCount / 2);
 
 	var floatIndex = 0;
-	State.players.forEach(function(player) {
+	State.players.forEach(function(player, index) {
 		var playerIndex = player.index;
 
 		var centerBreak = playerIndex == centerIndex;
@@ -93,6 +93,8 @@ var startGame = function(data) {
 			playerString += '</div><div class="player-section bottom">';
 		}
 		var floatingLeft = floatIndex % 2 == 0;
+		var mobileRender = index % 2 == 0 ? ' mobile-left' : ' mobile-right';
+
 		var floatClass = floatingLeft ? 'left' : 'right';
 		if (centerBreak) {
 			var evenRemaining = ((State.playerCount - playerIndex) % 2) == 0;
@@ -116,7 +118,7 @@ var startGame = function(data) {
 			floatClass += ' local';
 		}
 		var name = player.name + ' ['+(playerIndex+1)+']'; //TODO
-		playerString += '<div id="ps'+player.uid+'" class="player-slot '+floatClass+'" data-uid="'+player.uid+'"><div class="avatar image"><div class="vote" style="display:none;"></div></div><div class="contents"><div class="title"><h2>'+name+'</h2><span class="typing icon" style="display:none;">💬</span><span class="talking icon" style="display:none;">🎙</span></div><div class="chat"></div></div></div>';
+		playerString += '<div id="ps'+player.uid+'" class="player-slot '+floatClass + mobileRender+'" data-uid="'+player.uid+'"><div class="avatar image"><div class="vote" style="display:none;"></div></div><div class="contents"><div class="title"><h2>'+name+'</h2><span class="typing icon" style="display:none;">💬</span><span class="talking icon" style="display:none;">🎙</span></div><div class="chat"></div></div></div>';
 		++floatIndex;
 	});
 	playerString += '</div>';
