@@ -85,18 +85,20 @@ var startGame = function(data) {
 	var centerIndex = Math.ceil(State.playerCount / 2);
 
 	var floatIndex = 0;
+
+	var mobileNoPlayerSection = (window.innerWidth || document.body.clientWidth) < 500;
 	State.players.forEach(function(player, index) {
 		var playerIndex = player.index;
 
 		var centerBreak = playerIndex == centerIndex;
-		if (centerBreak) {
+		if (centerBreak && !mobileNoPlayerSection) {
 			playerString += '</div><div class="player-section bottom">';
 		}
 		var floatingLeft = floatIndex % 2 == 0;
 		var mobileRender = index % 2 == 0 ? ' mobile-left' : ' mobile-right';
 
 		var floatClass = floatingLeft ? 'left' : 'right';
-		if (centerBreak) {
+		if (centerBreak && !mobileNoPlayerSection) {
 			var evenRemaining = ((State.playerCount - playerIndex) % 2) == 0;
 			if (floatingLeft) {
 				if (!evenRemaining) {
