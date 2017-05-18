@@ -134,10 +134,15 @@
 }
 
 @media (max-width: 500px) {
+	.player-section {
+		display: flex;
+		flex-flow: row wrap;
+	}
 	.player-slot {
 		height: 46px;
 		padding: 0;
 		border-bottom: 1px solid #dfdbc4;
+		width: 50%;
 	}
 
 	.player-slot h2 {
@@ -161,12 +166,11 @@
 
 	.player-slot.left,
 	.player-slot.right {
-		float: left;
+		float: none;
 	}
 
 	.player-slot.mobile-left{
 		flex-direction: initial;
-		width: 50%;
 		border-right: 1px solid #dfdbc4;
 	}
 
@@ -176,7 +180,6 @@
 
 	.player-slot.mobile-right {
 		flex-direction: row-reverse;
-		width: 50%;
 	}
 
 	.player-slot.mobile-right .title {
