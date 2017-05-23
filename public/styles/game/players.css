@@ -69,6 +69,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	word-wrap: break-word;
+	word-break: break-all;
 }
 
 .chat .player-name {
