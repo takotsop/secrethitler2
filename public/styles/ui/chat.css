@@ -42,7 +42,7 @@
 }
 
 .chat-container p {
-	word-break: break-all;
+	word-wrap: break-word;
 }
 
 /* BUTTONS */
