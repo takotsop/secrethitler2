@@ -8,8 +8,8 @@ var Player = require.main.require('./server/play/player');
 
 //LOCAL
 
-var openNewGameFor = function(startSocket, size, isPrivate) {
-	new Game(null, size, isPrivate, startSocket);
+var openNewGameFor = function(startSocket, options) {
+	new Game(null, options, startSocket);
 };
 
 var joinGameById = function(socket, gid) {
@@ -84,7 +84,14 @@ module.exports = function(socket) {
 		if (!Player.data(socket.uid, 'joining')) {
 			leaveOldGame(socket);
 			var gameMaxSize = Utils.rangeCheck(data.size, 5, 10, 10);
-			openNewGameFor(socket, gameMaxSize, data.private);
+
+			var options = {
+				size:         Utils.rangeCheck(data.size, 5, 10, 10),
+				privateGame:  data.private,
+				canViewVotes: data.canViewVotes
+			}
+
+			openNewGameFor(socket, options);
 		}
 	});
 
@@ -96,7 +103,11 @@ module.exports = function(socket) {
 			if (!Player.data(socket.uid, 'joining')) {
 				response.success = true;
 				if (!joinAvailableGame(socket)) {
-					openNewGameFor(socket, 10, false);
+					var options = {
+						size: 10,
+						privateGame: false
+					}
+					openNewGameFor(socket, options);
 				}
 			}
 		}
