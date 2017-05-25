@@ -133,6 +133,16 @@ var joinGame = function(gid, failDestination) {
 	});
 };
 
+var spectateGame = function(gid, failDestination) {
+	showLobbySection('');
+	Socket.emit('room spectate', {gid: gid}, function(response) {
+		// if (response.error) {
+		// 	window.alert('Unable to join game: ' + response.error);
+		// }
+		// showLobbySection(response.success ? 'wait' : failDestination);
+	});
+};
+
 //EVENTS
 
 $('.lobby-leave').on('click', connectToStart);
@@ -187,10 +197,13 @@ $('#lobby-submit-private').on('click', function() {
 	joinGame(gid, 'join-private');
 });
 
-$('#lobby-open-games').on('click', 'li', function() {
-	joinGame($(this).data('gid'), 'start');
-});
-
+$('#lobby-open-games')
+	.on('click', '.play-button', function() {
+		joinGame($(this).closest('li').data('gid'), 'start');
+	})
+	.on('click', '.spectator-button', function() {
+		spectateGame($(this).closest('li').data('gid'), 'start');
+	});
 //SOCKET
 
 Socket.on('lobby games stats', function(data) {
@@ -200,7 +213,7 @@ Socket.on('lobby games stats', function(data) {
 		$('#lobby-open-games-empty').toggle(!hasGame);
 
 		$('#lobby-open-games').html(data.games.reduce(function(combined, game) {
-			return combined + '<li data-gid="'+game.gid+'"><h4>'+game.size+'p Secret Hitler</h4><p>'+game.names+'</p></li>';
+			return combined + '<li class="clearfix" data-gid="'+game.gid+'"><div class="information"><h4>'+game.size+'p Secret Hitler</h4><p>'+game.names+'</p></div><div class="button-container"><button class="large play-button">Play</button><button class="large spectator-button">Be a spectator</button></div></li>';
 		}, ''));
 	}
 	if (data.players) {
