@@ -123,6 +123,26 @@ module.exports = function(socket) {
 		callback(response);
 	});
 
+	socket.on('room spectate', function(data, callback) {
+		var response = {};
+		var gid = data.gid;
+		if (!gid) {
+			response.error = 'Invalid game code';
+		} else {
+			var joined = joinGameById(socket, data.gid);
+			if (joined == 'full') {
+				response.error = 'Game full';
+			} else if (joined == 'started') {
+				response.error = 'Game started';
+			} else if (joined == true) {
+				response.success = true;
+			} else {
+				response.error = 'Game not found';
+			}
+		}
+		callback(response);
+	});
+
 	socket.on('feedback', function(data, callback) {
 		var gid;
 		if (socket.game) {
