@@ -61,7 +61,7 @@ var insertMessage = function(player, message, isAction) {
 	scrollTimeout = setTimeout(function() {
 
 		// Only refresh scroll on insert message if scroll at bottom
-		if (scrollPos == scrollHeight) chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
+		if (scrollPos + 50 >= scrollHeight) chatContainer.scrollTop(chatContainer.prop('scrollHeight'));
 		scrollTimeout = null;
 	}, 200);
 };
