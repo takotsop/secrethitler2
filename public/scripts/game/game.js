@@ -141,6 +141,17 @@ var voteCompleted = function(data) {
 	Cards.show(cards);
 };
 
+var voteProcess = function(data) {
+	if (data.votes) {
+		$('.player-slot .vote').hide();
+		Object.keys(data.votes).forEach(function(vote) {
+			if (data.votes[vote] != null) {
+				$("#ps" + vote).find('.vote').show().text('Voted!');
+			}
+		});
+	}
+}
+
 //PUBLIC
 
 module.exports = {
@@ -154,6 +165,8 @@ module.exports = {
 	failedGovernment: failedGovernment,
 
 	voteCompleted: voteCompleted,
+
+	voteProcess: voteProcess,
 
 	advanceElectionTracker: advanceElectionTracker,
 

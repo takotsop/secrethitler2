@@ -41,6 +41,10 @@
 	background-color: transparent !important;
 }
 
+.chat-container p {
+	word-wrap: break-word;
+}
+
 /* BUTTONS */
 
 .chat-button {
