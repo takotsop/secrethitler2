@@ -44,7 +44,7 @@ var processAction = function(data) {
 		Policies.vetoOverridden(data);
 	} else {
 		if (data.canVeto) {
-			State.canVeto = true;
+//			State.canVeto = true;
 		}
 		if (action == 'peek') {
 			Policies.returnPreviewed();
