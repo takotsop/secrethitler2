@@ -11,7 +11,7 @@ module.exports = {
 	},
 
 	getChancellor: function() {
-		return CommonGame.getParticipants(this,players, 'players')[this.chancellorIndex];
+		return CommonGame.getParticipants(this.players, 'players')[this.chancellorIndex];
 	},
 
 	isLocalPresident: function() {
