@@ -95,6 +95,8 @@ var startGame = function(data) {
 	var mobileNoPlayerSection = (window.innerWidth || document.body.clientWidth) < 500;
 	State.players.forEach(function(player, index) {
 
+		var playerIndex = player.index;
+
 		if (player.uid == Data.uid) {
 			State.localPlayer = player;
 			State.localIndex = playerIndex;
@@ -103,8 +105,6 @@ var startGame = function(data) {
 		if (player.isSpectator) {
 			return;
 		}
-
-		var playerIndex = player.index;
 
 		var centerBreak = playerIndex == centerIndex;
 		if (centerBreak && !mobileNoPlayerSection) {
