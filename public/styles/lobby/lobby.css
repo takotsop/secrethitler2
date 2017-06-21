@@ -46,6 +46,11 @@
 	width: 50%;
 }
 
+#lobby-open-games h4 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
 #chat-container-lobby .player-name {
 	color: inherit;
 }

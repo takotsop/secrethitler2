@@ -54,15 +54,19 @@ var showOverlay = function(type, data) {
 		inner += '<h4>'+State.playerCount+' players (' + fascistsDescription + ')</h4>';
 		inner += '<p>';
 
-		inner += 'Your objective is to ';
-		if (CommonGame.isLiberal(State.localRole)) {
-			inner += 'work together with the other Liberals and pass 5 Liberal policies, or assassinate Hitler with one of the Fascist bullet policies.';
-		} else if (!CommonGame.isFuehrer(State.localRole)) {
-			inner += 'work together with the other Fascists to enact 6 Fascist policies, or elect Hitler as Chancellor <strong>after the third</strong> Fascist policy has been enacted.';
+		if (State.localRole == -1) {
+			inner += 'Watch and Enjoy!</p>'
 		} else {
-			inner += 'discover the other Fascists, working together to enact 6 Fascist policies, or get yourself elected Chancellor <strong>after the third</strong> Fascist policy has been enacted.<br>As Hitler, you\'ll want to keep yourself out of suspicion to avoid being assassinated.';
+			inner += 'Your objective is to ';
+			if (CommonGame.isLiberal(State.localRole)) {
+				inner += 'work together with the other Liberals and pass 5 Liberal policies, or assassinate Hitler with one of the Fascist bullet policies.';
+			} else if (!CommonGame.isFuehrer(State.localRole)) {
+				inner += 'work together with the other Fascists to enact 6 Fascist policies, or elect Hitler as Chancellor <strong>after the third</strong> Fascist policy has been enacted.';
+			} else {
+				inner += 'discover the other Fascists, working together to enact 6 Fascist policies, or get yourself elected Chancellor <strong>after the third</strong> Fascist policy has been enacted.<br>As Hitler, you\'ll want to keep yourself out of suspicion to avoid being assassinated.';
+			}
+			inner += '</p><h3>Good luck!</h3>';
 		}
-		inner += '</p><h3>Good luck!</h3>';
 
 	// Game over
 	} else if (type == 'victory') {

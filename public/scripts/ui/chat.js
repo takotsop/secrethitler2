@@ -85,7 +85,7 @@ var setChatState = function(state) {
 };
 
 var chatEnabled = function() {
-	return !State.started || State.finished || (!enactingPolicy && (!State.localPlayer || !State.localPlayer.killed));
+	return !Data.isSpectator && (!State.started || State.finished || (!enactingPolicy && (!State.localPlayer || !State.localPlayer.killed)));
 };
 
 var toggleMute = function(forced, globally) {

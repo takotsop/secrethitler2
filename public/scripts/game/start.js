@@ -26,7 +26,13 @@ var startGame = function(data) {
 	$('.policy-placeholder.policy-revealed').html('');
 	$('.tracker-slot').removeClass('danger');
 
+	var currentPlayer = data.players.find(function(player) {
+		return player.uid == Data.uid
+	});
+
 	Data.gameId = data.gid;
+	Data.isSpectator = currentPlayer.isSpectator;
+
 	App.showSection('game');
 
 	State.inGame = true;
@@ -88,6 +94,16 @@ var startGame = function(data) {
 
 	var mobileNoPlayerSection = (window.innerWidth || document.body.clientWidth) < 500;
 	State.players.forEach(function(player, index) {
+
+		if (player.uid == Data.uid) {
+			State.localPlayer = player;
+			State.localIndex = playerIndex;
+		}
+
+		if (player.isSpectator) {
+			return;
+		}
+
 		var playerIndex = player.index;
 
 		var centerBreak = playerIndex == centerIndex;
@@ -98,6 +114,7 @@ var startGame = function(data) {
 		var mobileRender = index % 2 == 0 ? ' mobile-left' : ' mobile-right';
 
 		var floatClass = floatingLeft ? 'left' : 'right';
+		var spectator = "";
 		if (centerBreak && !mobileNoPlayerSection) {
 			var evenRemaining = ((State.playerCount - playerIndex) % 2) == 0;
 			if (floatingLeft) {
@@ -114,13 +131,9 @@ var startGame = function(data) {
 				}
 			}
 		}
-		if (player.uid == Data.uid) {
-			State.localPlayer = player;
-			State.localIndex = playerIndex;
-			floatClass += ' local';
-		}
+
 		var name = player.name + ' ['+(playerIndex+1)+']'; //TODO
-		playerString += '<div id="ps'+player.uid+'" class="player-slot '+floatClass + mobileRender+'" data-uid="'+player.uid+'"><div class="avatar image"><div class="vote" style="display:none;"></div></div><div class="contents"><div class="title"><h2>'+name+'</h2><span class="typing icon" style="display:none;">💬</span><span class="talking icon" style="display:none;">🎙</span></div><div class="chat"></div></div></div>';
+		playerString += '<div id="ps'+player.uid+'" class="player-slot '+floatClass + mobileRender + spectator +'" data-uid="'+player.uid+'"><div class="avatar image"><div class="vote" style="display:none;"></div></div><div class="contents"><div class="title"><h2>'+name+'</h2><span class="typing icon" style="display:none;">💬</span><span class="talking icon" style="display:none;">🎙</span></div><div class="chat"></div></div></div>';
 		++floatIndex;
 	});
 	playerString += '</div>';
@@ -136,14 +149,32 @@ var startGame = function(data) {
 		console.error('Local player not found');
 	}
 
+	// show spectator, otherwise show fascists and Hitler
 	State.players.forEach(function(player) {
-		if (player.role != null) {
+		var displayAvatar;
+		if (State.localPlayer.role == -1) {
+			displayAvatar = player.role == -1;
+		} else {
+			displayAvatar = player.role != null && player.role != -1;
+		}
+
+		if (displayAvatar && !player.isSpectator) {
 			Players.displayAvatar(player, player.role);
 		}
 	});
 
 	if (data.history) {
 		Process.history(data.history);
+	}
+
+	var spectators = data.players.filter(function(player) {
+		return player.isSpectator;
+	})
+
+	if (spectators.length) {
+		spectators.forEach(function(uid) {
+			Chat.addAction('is watching the game', uid);
+		});
 	}
 
 	if (!State.initializedPlay) {

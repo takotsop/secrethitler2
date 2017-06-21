@@ -58,4 +58,15 @@ module.exports = {
 		return role != null && role >= 2;
 	},
 
+	getParticipants: function(participants, participantType) {
+		var self = this;
+		return participants.filter(function(puid) {
+			if (participantType == "players") {
+				return !puid.isSpectator;
+			} else {
+				return puid.isSpectator;
+			}
+		})
+	}
+
 };
