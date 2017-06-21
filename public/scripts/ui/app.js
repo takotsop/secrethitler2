@@ -22,7 +22,7 @@ var playerDiv = function(player, query) {
 
 var enablePlayerSelection = function(purpose) {
 	var localPresident = State.isLocalPresident();
-	$('#players .player-slot:not(.killed)').toggleClass('choose', localPresident);
+	$('#players .player-slot:not(.killed,.spectator)').toggleClass('choose', localPresident);
 
 	if (localPresident && purpose) {
 		localDiv().removeClass('choose');

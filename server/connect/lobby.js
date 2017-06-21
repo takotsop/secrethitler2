@@ -12,10 +12,11 @@ var openNewGameFor = function(startSocket, options) {
 	new Game(null, options, startSocket);
 };
 
-var joinGameById = function(socket, gid) {
+var joinGameById = function(socket, gid, isSpectator) {
 	var oldGame = socket.game;
 	if (!oldGame || oldGame.finished) {
 		var game = Game.get(gid);
+
 		if (game) {
 			if (game.started) {
 				return 'started';
@@ -24,7 +25,7 @@ var joinGameById = function(socket, gid) {
 				return 'full';
 			}
 			if (game.isOpen()) {
-				game.addPlayer(socket);
+				game.addPlayer(socket, isSpectator);
 				return true;
 			}
 		}
@@ -72,6 +73,8 @@ module.exports = function(socket) {
 				socket.join('lobby');
 			}
 		}
+
+
 	});
 
 	socket.on('lobby afk', function(data, callback) {
@@ -115,6 +118,10 @@ module.exports = function(socket) {
 	});
 
 	socket.on('room join', function(data, callback) {
+
+		leaveOldGame(socket);
+		Game.emitLobby(socket);
+
 		var response = {};
 		var gid = data.gid;
 		if (!gid) {
@@ -134,13 +141,23 @@ module.exports = function(socket) {
 		callback(response);
 	});
 
+	socket.on('change spectate', function(data, callback) {
+		var game = Game.get(data.gid);
+		game.editPlayer(socket, data.isSpectator);
+		callback({});
+	});
+
 	socket.on('room spectate', function(data, callback) {
+
+		Game.emitLobby(socket);
+
 		var response = {};
 		var gid = data.gid;
 		if (!gid) {
 			response.error = 'Invalid game code';
 		} else {
-			var joined = joinGameById(socket, data.gid);
+
+			var joined = joinGameById(socket, data.gid, 'spectator');
 			if (joined == 'full') {
 				response.error = 'Game full';
 			} else if (joined == 'started') {
