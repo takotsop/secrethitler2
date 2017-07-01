@@ -22,6 +22,8 @@ module.exports = {
 	},
 
 	getNextPresident: function(gameSize, players, startIndex, playersState) {
+		players = this.getParticipants(players, "players");
+
 		for (var attempts = 0; attempts < gameSize; ++attempts) {
 			++startIndex;
 			if (startIndex >= gameSize) {

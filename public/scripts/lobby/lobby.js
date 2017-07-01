@@ -118,6 +118,11 @@ var showLobbySection = function(subsection, forced) {
 	var isGameLobby = subsection == 'wait';
 	Chat.toggle(isGameLobby);
 	Timeout.setGameLobby(isGameLobby);
+
+	if (isGameLobby) {
+		$('.watch-instead').show();
+		$('.play-instead').hide();
+	}
 };
 
 var connectToStart = function() {
@@ -131,6 +136,7 @@ var connectToStart = function() {
 		connectData.join = Config.pageTarget;
 		Config.pageAction = null;
 	}
+
 	Socket.emit('lobby join', connectData);
 };
 
@@ -153,7 +159,6 @@ var changePlayerMode = function(playerType) {
 		}
 		$('.watch-instead').toggle(!isSpectator);
 		$('.play-instead').toggle(isSpectator);
-		showLobbySection(response.success ? 'wait' : failDestination);
 	});
 }
 

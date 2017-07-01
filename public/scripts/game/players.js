@@ -57,7 +57,10 @@ var killPlayer = function(player, isFuehrer, quit) {
 		if (State.isLocal(player)) {
 			Chat.toggleMute(true);
 		}
-		State.currentCount -= 1;
+
+		if (!player.isSpectator) {
+			State.currentCount -= 1;
+		}
 
 		if (!State.finished) {
 			var Game = require('game/game');
@@ -101,14 +104,16 @@ var chancellorChosen = function(data) {
 
 	var president = getPlayer(data.president);
 	var chancellor = getPlayer(data.chancellor);
-	State.chancellorIndex = chancellor.index;
+	State.chancellorIndex = State.players.filter(function(player) {
+		return !player.isSpectator;
+	}).indexOf(chancellor);
 
 	$('.player-slot').removeClass('choose').removeClass('elect');
 	App.playerDiv(president).addClass('elect');
 	App.playerDiv(chancellor).addClass('elect');
 
 	var directive, cards;
-	if (State.localPlayer.killed) {
+	if (State.localPlayer.killed || State.localPlayer.isSpectator) {
 		directive = 'Waiting for vote';
 		cards = null;
 	} else {

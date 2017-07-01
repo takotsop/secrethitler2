@@ -114,8 +114,14 @@ var failedGovernment = function(forced, explanation) {
 var voteCompleted = function(data) {
 	var directive, cards = null;
 	var voteDivs = $('.player-slot .vote');
+
+	var players = State.players;
+	var playerDivIndex = 0;
 	data.supporters.forEach(function(support, index) {
-		voteDivs.eq(index).show().text(support ? 'Ja!' : 'Nein!');
+		if (!players[index].isSpectator) {
+			voteDivs.eq(playerDivIndex).show().text(support ? 'Ja!' : 'Nein!');
+			playerDivIndex++;
+		}
 	});
 
 	if (data.hitler) {

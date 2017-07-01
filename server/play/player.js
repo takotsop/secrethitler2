@@ -37,7 +37,6 @@ module.exports = {
        		safeData.history.forEach(function(event) {
                 if (event.action === 'chancellor chosen') {
                    userInGovt = (uid === event.president || uid === event.chancellor);
-                   console.log('userInGovt', userInGovt);
                } else if (event.action === 'discarded') {
                    if (!userInGovt) {
                        delete event.secret;

@@ -43,7 +43,7 @@ var startGame = function(data) {
 	State.presidentIndex = State.positionIndex;
 	State.chancellorIndex = null;
 	State.players = data.players;
-	State.playerCount = State.players.length;
+	State.playerCount = CommonGame.getParticipants(State.players,'players').length;
 	State.currentCount = State.playerCount;
 	State.canVeto = false;
 	Chat.setEnacting(false);
@@ -93,13 +93,13 @@ var startGame = function(data) {
 	var floatIndex = 0;
 
 	var mobileNoPlayerSection = (window.innerWidth || document.body.clientWidth) < 500;
-	State.players.forEach(function(player, index) {
 
-		var playerIndex = player.index;
+	var playerIndex = 0;
+	State.players.forEach(function(player, index) {
 
 		if (player.uid == Data.uid) {
 			State.localPlayer = player;
-			State.localIndex = playerIndex;
+			State.localIndex = player.index;
 		}
 
 		if (player.isSpectator) {
@@ -111,7 +111,7 @@ var startGame = function(data) {
 			playerString += '</div><div class="player-section bottom">';
 		}
 		var floatingLeft = floatIndex % 2 == 0;
-		var mobileRender = index % 2 == 0 ? ' mobile-left' : ' mobile-right';
+		var mobileRender = playerIndex % 2 == 0 ? ' mobile-left' : ' mobile-right';
 
 		var floatClass = floatingLeft ? 'left' : 'right';
 		var spectator = "";
@@ -135,6 +135,8 @@ var startGame = function(data) {
 		var name = player.name + ' ['+(playerIndex+1)+']'; //TODO
 		playerString += '<div id="ps'+player.uid+'" class="player-slot '+floatClass + mobileRender + spectator +'" data-uid="'+player.uid+'"><div class="avatar image"><div class="vote" style="display:none;"></div></div><div class="contents"><div class="title"><h2>'+name+'</h2><span class="typing icon" style="display:none;">💬</span><span class="talking icon" style="display:none;">🎙</span></div><div class="chat"></div></div></div>';
 		++floatIndex;
+
+		playerIndex++;
 	});
 	playerString += '</div>';
 

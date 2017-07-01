@@ -377,7 +377,7 @@ var Game = function(restoreData, options, socket) {
 //STATE
 
 	this.setPresidentIndex = function(index) {
-		this.turn.president = this.players[index];
+		this.turn.president = this.getParticipants(this.players, "players")[index];
 	};
 
 	this.advanceTurn = function() {
@@ -512,7 +512,6 @@ var Game = function(restoreData, options, socket) {
 				}
 			}
 			playerState.killed = true;
-
 
 			if (!playerState.isSpectator) {
 				this.currentCount -= 1;	

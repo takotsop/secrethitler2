@@ -15,11 +15,11 @@ module.exports = {
 	},
 
 	isLocalPresident: function() {
-		return this.presidentIndex == this.localIndex;
+		return CommonGame.getParticipants(this.players, 'players')[this.presidentIndex].index == this.localIndex;
 	},
 
 	isLocalChancellor: function() {
-		return this.chancellorIndex == this.localIndex;
+		return CommonGame.getParticipants(this.players, 'players')[this.chancellorIndex].index == this.localIndex;
 	},
 
 	localRoleName: function() {

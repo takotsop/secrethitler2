@@ -35,7 +35,10 @@ var joinGameById = function(socket, gid, isSpectator) {
 
 var joinOngoingGame = function(socket) {
 	var oldGame = socket.game;
-	if (oldGame && !oldGame.finished) {
+
+	var abandonedOldGame = socket && socket.game && socket.game.lastAction && socket.uid == socket.game.lastAction.uid && socket.game.lastAction.action == 'abandoned';
+
+	if (oldGame && !oldGame.finished && !abandonedOldGame) {
 		oldGame.addPlayer(socket);
 		return true;
 	}
