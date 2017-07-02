@@ -7,22 +7,25 @@ module.exports = {
 	finished: true,
 
 	getPresident: function() {
-		return this.players[this.presidentIndex];
+		return CommonGame.getParticipants(this.players, 'players')[this.presidentIndex];
 	},
 
 	getChancellor: function() {
-		return this.players[this.chancellorIndex];
+		return CommonGame.getParticipants(this.players, 'players')[this.chancellorIndex];
 	},
 
 	isLocalPresident: function() {
-		return this.presidentIndex == this.localIndex;
+		return CommonGame.getParticipants(this.players, 'players')[this.presidentIndex].index == this.localIndex;
 	},
 
 	isLocalChancellor: function() {
-		return this.chancellorIndex == this.localIndex;
+		return CommonGame.getParticipants(this.players, 'players')[this.chancellorIndex].index == this.localIndex;
 	},
 
 	localRoleName: function() {
+		if (this.localRole == -1) {
+			return 'Spectator';
+		}
 		return CommonGame.isLiberal(this.localRole) ? 'Liberal' : (CommonGame.isFuehrer(this.localRole) ? 'Hitler' : 'Fascist');
 	},
 

@@ -22,6 +22,8 @@ module.exports = {
 	},
 
 	getNextPresident: function(gameSize, players, startIndex, playersState) {
+		players = this.getParticipants(players, "players");
+
 		for (var attempts = 0; attempts < gameSize; ++attempts) {
 			++startIndex;
 			if (startIndex >= gameSize) {
@@ -57,5 +59,16 @@ module.exports = {
 	isFuehrer: function(role) {
 		return role != null && role >= 2;
 	},
+
+	getParticipants: function(participants, participantType) {
+		var self = this;
+		return participants.filter(function(puid) {
+			if (participantType == "players") {
+				return !puid.isSpectator;
+			} else {
+				return puid.isSpectator;
+			}
+		})
+	}
 
 };

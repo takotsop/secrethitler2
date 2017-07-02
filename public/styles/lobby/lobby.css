@@ -8,18 +8,60 @@
 }
 
 #lobby-open-games li {
-	margin: 16px;
-	padding: 8px 0;
-	background-color: #eee;
+	margin: 16px auto;
+	padding: 8px;
+	background-color: #FFFFFE;
+	border-radius: 6px;
+	width: 480px;
+	max-width: 100%;
+    box-sizing: border-box;
 }
 
-#lobby-open-games li:hover {
-	background-color: rgba(156, 7, 1, 0.1);;
+#lobby-open-games li .play-button {
+	background-color: #4CAF50;
+	color: #fff;
+	border: 0;
+	border-radius: 4px;
 	cursor: pointer;
+}
+
+#lobby-open-games li .spectator-button {
+	background-color: #2196F3;
+	color: #fff;
+	border: 0;
+	font-size: 13px;
+	height: 22px;
+	margin-top: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#lobby-open-games li .information {
+    float: left;
+    width: 50%;
+}
+
+#lobby-open-games li .button-container {
+	float: right;
+	width: 50%;
+}
+
+#lobby-open-games h4 {
+	margin-top: 20px;
+	margin-bottom: 10px;
 }
 
 #chat-container-lobby .player-name {
 	color: inherit;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
 }
 
 @media (max-width: 500px) {
@@ -40,5 +82,10 @@
 	#s-lobby p {
 		font-size: 14px;
 		margin: 10px 0;
+	}
+
+	#lobby-open-games li .information, #lobby-open-games li .button-container {
+		float: none;
+		width: 100%;
 	}
 }

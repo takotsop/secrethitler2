@@ -50,6 +50,8 @@ var updateCountdown = function() {
 //LOCAL
 
 var updateLobby = function(data) {
+	var players, lobbyPlayerCount;
+
 	clearCountdown();
 	if (data.started) {
 		Timeout.setGameLobby(false);
@@ -59,8 +61,16 @@ var updateLobby = function(data) {
 
 	showLobbySection('wait');
 
+	State.gid     = data.gid;
 	State.players = data.players;
-	var lobbyPlayerCount = data.players.length;
+	players = removeSpectators(data.players);
+
+	if (players.length == 0) {
+		connectToStart();
+		window.alert('The game has closed as there are no eligible players.');
+	}
+
+	lobbyPlayerCount = players.length;
 	startTime = data.startTime;
 	if (startTime) {
 		updateCountdown();
@@ -71,12 +81,8 @@ var updateLobby = function(data) {
 	}
 
 	$('#lobby-player-summary').text(lobbyPlayerCount + ' of ' + data.maxSize);
-	var nameList = '';
-	data.players.forEach(function(player, index) {
-		var floatClass = index % 2 == 0 ? 'left' : 'right';
-		nameList += '<div class="player-slot '+floatClass+'"><h2>' + player.name + '</h2></div>';
-	});
-	$('#lobby-players').html(nameList);
+;
+	$('#lobby-players').html(createPlayerList(data.players));
 
 	var privateGame = data.private == true;
 	$('#private-lobby').toggle(privateGame);
@@ -84,6 +90,22 @@ var updateLobby = function(data) {
 	var gid = data.gid;
 	$('#lobby-code').html('<a href="/join/'+gid+'" target="_blank">' + Socket.io.uri + 'join/<strong>' + gid + '</strong></a>');
 };
+
+var createPlayerList = function(players) {
+	var nameList = '';
+	players.forEach(function(player, index) {
+		var floatClass = index % 2 == 0 ? 'left' : 'right';
+		var isSpectator = player.isSpectator ? ' - <i>watching</i>' : '';
+		nameList += '<div class="player-slot '+floatClass+'"><h2>' + player.name + isSpectator + '</h2></div>';
+	});
+	return nameList;
+}
+
+var removeSpectators = function(players) {
+	return players.filter(function(player) {
+		return !player.isSpectator
+	});
+}
 
 var showLobbySection = function(subsection, forced) {
 	if (!forced && !Util.hidden('#lobby-'+subsection)) {
@@ -96,6 +118,11 @@ var showLobbySection = function(subsection, forced) {
 	var isGameLobby = subsection == 'wait';
 	Chat.toggle(isGameLobby);
 	Timeout.setGameLobby(isGameLobby);
+
+	if (isGameLobby) {
+		$('.watch-instead').show();
+		$('.play-instead').hide();
+	}
 };
 
 var connectToStart = function() {
@@ -109,8 +136,31 @@ var connectToStart = function() {
 		connectData.join = Config.pageTarget;
 		Config.pageAction = null;
 	}
+
 	Socket.emit('lobby join', connectData);
 };
+
+var changePlayerMode = function(playerType) {
+	var isSpectator = playerType == 'spectator';
+	var connectData = {};
+
+	clearCountdown();
+	$('.chat-container').html('');
+
+	if (Config.pageAction == 'join') {
+		connectData.join = Config.pageTarget;
+		Config.pageAction = null;
+	}
+
+	showLobbySection('');
+	Socket.emit('change spectate', {gid: State.gid, isSpectator: isSpectator}, function(response) {
+		if (response.error) {
+			window.alert('Unable to join game: ' + response.error);
+		}
+		$('.watch-instead').toggle(!isSpectator);
+		$('.play-instead').toggle(isSpectator);
+	});
+}
 
 var showLobby = function() {
 	State.inGame = false;
@@ -123,9 +173,11 @@ var quitGame = function() {
 	Action.emit('quit', null, showLobby);
 };
 
-var joinGame = function(gid, failDestination) {
+var joinGame = function(gid, failDestination, isSpectator) {
+	var isSpectator = isSpectator || false;
+
 	showLobbySection('');
-	Socket.emit('room join', {gid: gid}, function(response) {
+	Socket.emit(isSpectator ? 'room spectate' : 'room join', {gid: gid}, function(response) {
 		if (response.error) {
 			window.alert('Unable to join game: ' + response.error);
 		}
@@ -136,6 +188,12 @@ var joinGame = function(gid, failDestination) {
 //EVENTS
 
 $('.lobby-leave').on('click', connectToStart);
+$('.watch-instead').on('click', function() {
+	changePlayerMode('spectator');
+});
+$('.play-instead').on('click', function() {
+	changePlayerMode('player');
+});
 
 $('#lobby-button-quick-play').on('click', function() {
 	showLobbySection('');
@@ -187,10 +245,13 @@ $('#lobby-submit-private').on('click', function() {
 	joinGame(gid, 'join-private');
 });
 
-$('#lobby-open-games').on('click', 'li', function() {
-	joinGame($(this).data('gid'), 'start');
-});
-
+$('#lobby-open-games')
+	.on('click', '.play-button', function() {
+		joinGame($(this).closest('li').data('gid'), 'start', false);
+	})
+	.on('click', '.spectator-button', function() {
+		joinGame($(this).closest('li').data('gid'), 'start', true);
+	});
 //SOCKET
 
 Socket.on('lobby games stats', function(data) {
@@ -200,7 +261,7 @@ Socket.on('lobby games stats', function(data) {
 		$('#lobby-open-games-empty').toggle(!hasGame);
 
 		$('#lobby-open-games').html(data.games.reduce(function(combined, game) {
-			return combined + '<li data-gid="'+game.gid+'"><h4>'+game.size+'p Secret Hitler</h4><p>'+game.names+'</p></li>';
+			return combined + '<li class="clearfix" data-gid="'+game.gid+'"><div class="information"><h4>'+game.size+'p Secret Hitler</h4><p>'+game.names+'</p></div><div class="button-container"><button class="large play-button">Play</button><button class="large spectator-button">Watch</button></div></li>';
 		}, ''));
 	}
 	if (data.players) {

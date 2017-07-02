@@ -24,6 +24,7 @@ var conpleteSetup = function(game, gid, socket) {
 	game.gid = gid;
 	game.generator = new SeedRandom(gid);
 	games.push(game);
+
 	if (socket) {
 		game.addPlayer(socket);
 	}
@@ -81,7 +82,11 @@ var Game = function(restoreData, options, socket) {
 		this.playersState = {};
 		var names = restoreData.player_names.split(',');
 		this.players.forEach(function(puid, index) {
-			game.playersState[puid] = {index: index, name: names[index]};
+			game.playersState[puid] = {
+				index: index,
+				name: names[index],
+				isSpectator: names[index].indexOf('(watching)') != -1,
+			};
 		});
 		this.history = restoreData.history || [];
 		this.startIndex = restoreData.start_index;
@@ -153,6 +158,10 @@ var Game = function(restoreData, options, socket) {
 
 	this.playersStateMap = function(key) {
 		return this.players.map(function(puid) {
+			if (key == 'name') {
+				var isSpectator = game.playerState(puid, 'isSpectator');
+				return game.playerState(puid, key) + (isSpectator ? ' (watching)' : '');
+			}
 			return game.playerState(puid, key);
 		});
 	};
@@ -231,15 +240,23 @@ var Game = function(restoreData, options, socket) {
 				uid: uid,
 				name: game.playerState(uid, 'name'),
 				index: index,
+				isSpectator: game.playerState(uid, 'isSpectator')
 			};
 			if (perspectiveUid) {
 				var playerRole = game.playerState(uid, 'role');
+
+				if (typeof playerRole === "undefined") {
+					playerRole = -1;
+				}
+
 				if (perspectiveUid == uid || (showFascists && CommonGame.isFascist(playerRole))) {
 					playerData.role = playerRole;
 				}
 			}
+
 			sendPlayers[index] = playerData;
 		});
+
 		return {
 			gid: this.gid,
 			started: this.started,
@@ -264,7 +281,6 @@ var Game = function(restoreData, options, socket) {
 				game.start();
 			}, startDelay * 1000);
 		}
-
 		this.emit('lobby game data', this.gameData());
 	};
 
@@ -280,6 +296,17 @@ var Game = function(restoreData, options, socket) {
 		Player.emitTo(uid, 'lobby game data', this.gameData(uid));
 	};
 
+	this.getParticipants = function(participants, participantType) {
+		var self = this;
+		return participants.filter(function(puid) {
+			if (participantType == "players") {
+				return !self.playerState(puid, 'isSpectator');
+			} else {
+				return self.playerState(puid, 'isSpectator');
+			}
+		})
+	}
+
 	this.start = function() {
 		if (this.started) {
 			return;
@@ -293,18 +320,28 @@ var Game = function(restoreData, options, socket) {
 			this.cancelAutostart();
 		}
 
+		var players = this.getParticipants(this.players, "players");
+		var spectators = this.getParticipants(this.players, "spectators");
+
 		this.started = true;
-		this.playerCount = this.players.length;
+		this.playerCount  = players.length;
 		this.currentCount = this.playerCount;
-		this.startIndex = this.random(this.playerCount);
+		this.startIndex   = this.random(this.playerCount);
 		this.positionIndex = this.startIndex;
 		this.setPresidentIndex(this.positionIndex);
 		this.shufflePolicyDeck();
 
 		if (!this.replaying) {
-			var idsData = this.players.join(',');
-			var namesData = this.playersStateMap('name').join(',');
-			DB.update('games', "id = '"+this.gid+"'", {state: 1, started_at: CommonUtil.now(), start_index: this.startIndex, player_count: this.playerCount, player_ids: idsData, player_names: namesData});
+			var idsData       = this.players.join(',');
+			var namesData     = this.playersStateMap('name').join(',');
+			DB.update('games', "id = '"+this.gid+"'", {
+				state: 1,
+				started_at:   CommonUtil.now(),
+				start_index:  this.startIndex,
+				player_count: this.playerCount,
+				player_ids:   idsData,
+				player_names: namesData
+			});
 			DB.updatePlayers(this.players, 'started', this.gid, true);
 		}
 
@@ -315,7 +352,7 @@ var Game = function(restoreData, options, socket) {
 			fascistIndicies[i] = i < facistsCount ? 1 : 0;
 		}
 		fascistIndicies = this.shuffle(fascistIndicies);
-		this.players.forEach(function(puid, pidx) {
+		players.forEach(function(puid, pidx) {
 			var role = fascistIndicies[pidx];
 			game.playerState(puid, 'role', role);
 		});
@@ -340,7 +377,7 @@ var Game = function(restoreData, options, socket) {
 //STATE
 
 	this.setPresidentIndex = function(index) {
-		this.turn.president = this.players[index];
+		this.turn.president = this.getParticipants(this.players, "players")[index];
 	};
 
 	this.advanceTurn = function() {
@@ -426,7 +463,8 @@ var Game = function(restoreData, options, socket) {
 		return state;
 	};
 
-	this.addPlayer = function(socket) {
+	this.addPlayer = function(socket, playerType) {
+
 		var uid = socket.uid;
 		socket.leave('lobby');
 		socket.join(this.gid);
@@ -436,7 +474,11 @@ var Game = function(restoreData, options, socket) {
 		if (!playerState) {
 			var index = this.players.length;
 			this.players[index] = uid;
-			this.playersState[uid] = {index: index, name: socket.name};
+			this.playersState[uid] = {
+				index: index,
+				name: socket.name,
+				isSpectator: playerType == 'spectator',
+			};
 		} else {
 			playerState.quit = false;
 		}
@@ -452,6 +494,14 @@ var Game = function(restoreData, options, socket) {
 		}
 	};
 
+	this.editPlayer = function(socket, isSpectator) {
+		var uid = socket.uid;
+		this.playersState[uid].isSpectator = isSpectator;
+
+		this.resetAutostart();
+		emitLobby();
+	}
+
 	this.kill = function(uid, quitting) {
 		var playerState = this.playerState(uid);
 		if (playerState && !playerState.killed) {
@@ -462,7 +512,10 @@ var Game = function(restoreData, options, socket) {
 				}
 			}
 			playerState.killed = true;
-			this.currentCount -= 1;
+
+			if (!playerState.isSpectator) {
+				this.currentCount -= 1;	
+			}
 
 			if (!this.finished && this.isFuehrer(uid)) {
 				this.finish(true, quitting ? 'hitler quit' : 'hitler');
@@ -579,7 +632,11 @@ var Game = function(restoreData, options, socket) {
 	};
 
 	this.enoughToStart = function() {
-		return this.players.length >= MINIMUM_GAME_SIZE;
+		var self = this;
+		var players = this.players.filter(function(userId) {
+			return !self.playersState[userId].isSpectator;
+		})
+		return players.length >= MINIMUM_GAME_SIZE;
 	};
 
 	this.isFull = function() {

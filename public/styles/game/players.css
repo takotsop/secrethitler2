@@ -16,7 +16,7 @@
 .player-slot {
 	display: flex;
 	box-sizing: border-box;
-	width: 50%;
+	width: 49%;
 	padding: 16px;
 	height: 104px;
 }
